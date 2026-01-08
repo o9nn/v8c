@@ -1,0 +1,119 @@
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    OpenCog Multi-Tenant Architecture                         │
+│                     on V8 JavaScript Engine                                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+                          ┌─────────────────────┐
+                          │  User Applications  │
+                          │  (Cognitive AI Apps)│
+                          └──────────┬──────────┘
+                                     │
+        ┌────────────────────────────┼────────────────────────────┐
+        │                            │                            │
+        ▼                            ▼                            ▼
+┌───────────────┐          ┌───────────────┐          ┌───────────────┐
+│   Tenant 1    │          │   Tenant 2    │          │   Tenant N    │
+├───────────────┤          ├───────────────┤          ├───────────────┤
+│               │          │               │          │               │
+│ ┌───────────┐ │          │ ┌───────────┐ │          │ ┌───────────┐ │
+│ │V8 Isolate │ │          │ │V8 Isolate │ │          │ │V8 Isolate │ │
+│ │ Context   │ │          │ │ Context   │ │          │ │ Context   │ │
+│ └─────┬─────┘ │          │ └─────┬─────┘ │          │ └─────┬─────┘ │
+│       │       │          │       │       │          │       │       │
+│ ┌─────▼─────┐ │          │ ┌─────▼─────┐ │          │ ┌─────▼─────┐ │
+│ │ AtomSpace │ │          │ │ AtomSpace │ │          │ │ AtomSpace │ │
+│ │ Knowledge │ │          │ │ Knowledge │ │          │ │ Knowledge │ │
+│ │   Graph   │ │          │ │   Graph   │ │          │ │   Graph   │ │
+│ └─────┬─────┘ │          │ └─────┬─────┘ │          │ └─────┬─────┘ │
+│       │       │          │       │       │          │       │       │
+│ ┌─────▼─────┐ │          │ ┌─────▼─────┐ │          │ ┌─────▼─────┐ │
+│ │  Agents   │ │          │ │  Agents   │ │          │ │  Agents   │ │
+│ │ Agent1    │ │          │ │ Agent3    │ │          │ │ Agent5    │ │
+│ │ Agent2    │ │          │ │ Agent4    │ │          │ │ Agent6    │ │
+│ └───────────┘ │          │ └───────────┘ │          │ └───────────┘ │
+└───────┬───────┘          └───────┬───────┘          └───────┬───────┘
+        │                          │                          │
+        └──────────────────────────┼──────────────────────────┘
+                                   │
+                        ┌──────────▼──────────┐
+                        │ Agent Orchestrator   │
+                        │ - Message Routing    │
+                        │ - Scheduling         │
+                        │ - Coordination       │
+                        └──────────┬──────────┘
+                                   │
+                        ┌──────────▼──────────┐
+                        │   Isolate Mesh      │
+                        │ - Tenant Management │
+                        │ - Resource Limits   │
+                        │ - Lifecycle Control │
+                        └──────────┬──────────┘
+                                   │
+                        ┌──────────▼──────────┐
+                        │    V8 Platform      │
+                        │ - Thread Pool       │
+                        │ - Garbage Collection│
+                        │ - Memory Management │
+                        └─────────────────────┘
+
+══════════════════════════════════════════════════════════════════════════════
+
+Component Interactions:
+
+1. AtomSpace (Knowledge Layer)
+   • Multi-tenant knowledge graphs
+   • Probabilistic truth values
+   • Thread-safe operations
+   • Efficient queries (O(1) by ID/name)
+
+2. Agents (Cognitive Layer)
+   • Autonomous execution
+   • Message-based communication
+   • State management (IDLE/RUNNING/COMPLETED/FAILED)
+   • Access to tenant's AtomSpace
+
+3. Agent Orchestrator (Coordination Layer)
+   • Routes messages between agents
+   • Schedules agent execution
+   • Manages agent lifecycle
+   • Coordinates across tenants
+
+4. Isolate Mesh (Execution Layer)
+   • Per-tenant V8 isolates
+   • Configurable resource limits
+   • JavaScript execution contexts
+   • Memory isolation
+
+5. V8 Platform (Foundation Layer)
+   • JavaScript engine
+   • Garbage collection
+   • Thread management
+   • Native code integration
+
+══════════════════════════════════════════════════════════════════════════════
+
+Data Flow Example:
+
+1. Application creates tenant → IsolateMesh allocates V8 Isolate
+2. Isolate automatically gets AtomSpace → Knowledge storage ready
+3. Application registers Agent → Orchestrator tracks agent
+4. Application schedules Agent → Orchestrator queues execution
+5. Agent executes → Accesses AtomSpace, adds knowledge
+6. Agent sends message → Orchestrator routes to recipient
+7. Recipient agent receives → OnMessage() callback invoked
+8. Agents continue processing → Autonomous coordination
+
+══════════════════════════════════════════════════════════════════════════════
+
+Key Features:
+
+✓ Multi-Tenant Isolation    - Complete separation at all levels
+✓ Thread Safety             - Mutex protection throughout
+✓ Neuro-Symbolic Reasoning  - Probabilistic knowledge graphs
+✓ Autonomous Agents         - Self-directed execution
+✓ Message Passing           - Asynchronous communication
+✓ Scalable Architecture     - Supports many tenants/agents
+✓ V8 Integration            - JavaScript execution capability
+✓ Extensible Design         - Factory patterns, virtual methods
+
+══════════════════════════════════════════════════════════════════════════════
