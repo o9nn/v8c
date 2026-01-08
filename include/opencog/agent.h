@@ -6,6 +6,7 @@
 #define V8_OPENCOG_AGENT_H_
 
 #include <functional>
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
