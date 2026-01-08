@@ -1,0 +1,68 @@
+# Copyright 2026 the V8 project authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+import("//build/config/sanitizers/sanitizers.gni")
+
+# OpenCog AtomSpace library
+v8_source_set("opencog_atomspace") {
+  sources = [
+    "atomspace/atom.cc",
+    "atomspace/atomspace.cc",
+  ]
+
+  configs = [
+    "../../:internal_config",
+    "../../:v8_tracing_config",
+  ]
+
+  public_deps = [ "../../:v8_headers" ]
+}
+
+# Agent-Zero orchestration library
+v8_source_set("opencog_agents") {
+  sources = [
+    "agents/agent.cc",
+    "agents/agent-orchestrator.cc",
+  ]
+
+  configs = [
+    "../../:internal_config",
+    "../../:v8_tracing_config",
+  ]
+
+  public_deps = [
+    ":opencog_atomspace",
+    "../../:v8_headers",
+  ]
+}
+
+# Isolate mesh library
+v8_source_set("opencog_isolate_mesh") {
+  sources = [ "isolate-mesh/isolate-mesh.cc" ]
+
+  configs = [
+    "../../:internal_config",
+    "../../:v8_tracing_config",
+  ]
+
+  public_deps = [
+    ":opencog_agents",
+    ":opencog_atomspace",
+    "../../:v8_headers",
+  ]
+
+  deps = [
+    "../..:v8_base",
+    "../..:v8_libbase",
+  ]
+}
+
+# Complete OpenCog library
+v8_component("opencog") {
+  public_deps = [
+    ":opencog_agents",
+    ":opencog_atomspace",
+    ":opencog_isolate_mesh",
+  ]
+}
